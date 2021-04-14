@@ -1,0 +1,140 @@
+openapi: 3.0.0
+info:
+  title: Node Mentoring
+  description: This is our Node Mentoring.
+  version: "1.0"
+paths:
+
+  /users/getAutoSuggestUsers:
+    x-swagger-router-controller: user
+    get:
+      operationId: getAutoSuggestUsers
+      description: Returns user based on Limit and Substring
+      summary: Find user by substring and limit
+      parameters:
+        - in: query
+          name: substring
+          schema:
+            type: string
+          description: substring to search
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: size of chunks
+      responses:
+        "200":
+          description: users
+          content:
+            application/json:
+              schema:
+                type: array
+
+  /users/{id}:
+    x-swagger-router-controller: user
+    get:
+      operationId: getUserById
+      description: Returns users based on ID
+      summary: Find user by ID
+      parameters:
+        - $ref: "#/components/parameters/idPathParameter"
+      responses:
+        "200":
+          description: user response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "500":
+          description: error
+    delete:
+      operationId: deleteUserById
+      description: Deletes users based on ID
+      summary: Delete user by ID
+      parameters:
+        - $ref: "#/components/parameters/idPathParameter"
+      responses:
+        "200":
+          description: user deleted
+        "404":
+          description: user dosn\'t exist
+
+  /users:
+    x-swagger-router-controller: user
+    post:
+      operationId: createUser
+      description: create user
+      summary: create user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: user created
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+    get:
+      operationId: gatAllUsers
+      description: get all users
+      summary: get all users
+      responses:
+        "200":
+          description: all users
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+    put:
+      operationId: putUser
+      description: update or create user
+      summary: update or create user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: update or put user
+
+components:
+  parameters:
+    idPathParameter:
+      name: id
+      description: user id
+      example: 1
+      in: path
+      required: true
+      schema:
+        type: integer
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          oneOf:
+            - type: string
+            - type: integer
+        login:
+          type: string
+        password:
+          type: string
+        age:
+          type: integer
+          minimum: 4
+          maximum: 140
+        isDeleted:
+          type: boolean
+    Users:
+      type: array
+      items:
+        $ref: "#/components/schemas/User"

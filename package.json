@@ -1,0 +1,27 @@
+{
+  "name": "nodeMentoringApp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lintSpec": "spectral lint ./spec/spec.yaml",
+    "start": "nodemon ./src/app",
+    "lint": "eslint ./"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@stoplight/spectral": "^5.9.0",
+    "express": "^4.17.1",
+    "express-joi-validation": "^5.0.0",
+    "joi": "^17.4.0",
+    "js-yaml": "^4.0.0",
+    "nodemon": "^2.0.7",
+    "oas-tools": "^2.1.8",
+    "ramda": "^0.27.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.23.0"
+  }
+}
