@@ -6,7 +6,7 @@ info:
 paths:
 
   /users/getAutoSuggestUsers:
-    x-swagger-router-controller: user
+    x-swagger-router-controller: controller
     get:
       operationId: getAutoSuggestUsers
       description: Returns user based on Limit and Substring
@@ -31,7 +31,7 @@ paths:
                 type: array
 
   /users/{id}:
-    x-swagger-router-controller: user
+    x-swagger-router-controller: controller
     get:
       operationId: getUserById
       description: Returns users based on ID
@@ -60,7 +60,7 @@ paths:
           description: user dosn\'t exist
 
   /users:
-    x-swagger-router-controller: user
+    x-swagger-router-controller: controller
     post:
       operationId: createUser
       description: create user
@@ -104,6 +104,12 @@ paths:
       responses:
         "201":
           description: update or put user
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
 
 components:
   parameters:
@@ -128,6 +134,10 @@ components:
           type: string
         password:
           type: string
+          minLength: 4
+          maxLength: 15
+          format: password
+          pattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{4,15}$'
         age:
           type: integer
           minimum: 4

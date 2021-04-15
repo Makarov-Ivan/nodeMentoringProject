@@ -10,5 +10,8 @@
         "ecmaVersion": 12
     },
     "rules": {
+        "semi-style": ["error", "last"],
+        "quotes": ["error", "double"],
+        "semi": ["error", "always"]
     }
 }
