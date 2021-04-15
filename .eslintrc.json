@@ -12,6 +12,7 @@
     "rules": {
         "semi-style": ["error", "last"],
         "quotes": ["error", "double"],
-        "semi": ["error", "always"]
+        "semi": ["error", "always"],
+        "no-trailing-spaces": [2, { "skipBlankLines": true }]
     }
 }
