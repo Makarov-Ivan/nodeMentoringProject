@@ -12,10 +12,7 @@ const getUserById = async (req, res) => {
     res.status(201).send(result);
     return;
 };
-
-const getAutoSuggestUsers = async (req, res) => {
-    res.status(500).send("not implemented yet");
-};
+// delete getAutoSuggestUsers, wouldn't be used, should be in /users
 
 const createUser = async (req, res) => {
     const {
@@ -37,6 +34,22 @@ const createUser = async (req, res) => {
 };
 
 const gatAllUsers = async (req, res) => {
+    const { query: querryObject } = req
+    console.log({querryObject});
+    if (Object.keys(querryObject).length) {
+        const validationError = await ValidationService.querry(querryObject);
+        if (validationError) {
+            res.status(400).send(validationError);
+            return;
+        };
+        const { error, result } = await UserService.getUsersBySubstringAndLimit(querryObject);
+        if (error) {
+            res.status(500).send(error);
+            return;
+        }
+        res.status(201).send(result);
+        return;    
+    }
     const { error, result } = await UserService.getAllUsers();
     if (error) {
         res.status(500).send(error);
@@ -84,7 +97,6 @@ module.exports = {
     gatAllUsers,
     putUser,
     deleteUserById,
-    getAutoSuggestUsers
 };
 
 

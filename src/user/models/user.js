@@ -1,36 +1,32 @@
 const { DataTypes } = require("sequelize");
 
-const { sequelizeClient } = require("../data-access/connection");
+const { sequelizeClient } = require("../../../DB_connection/connection");
 
 const User = sequelizeClient.define("User", {
-  uid: {
+  //rename attributes, delete id
+  id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    unique: true
+    unique: true,
+    primaryKey: true
   },
-  uLogin: {
+  login: {
     type: DataTypes.TEXT,
     allowNull: false,
     unique: true
   },
-  uPassword: {
+  password: {
     type: DataTypes.TEXT,
     allowNull: true,
   },
-  uAge: {
+  age: {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
-  uDeleted: {
+  deleted: {
     type: DataTypes.BOOLEAN,
   }
 }, {});
-
-// (async () => {
-//   await sequelizeClient.sync({ force: true });
-//   // Code here
-// })();
-
 
 module.exports = {
   userModule: User,

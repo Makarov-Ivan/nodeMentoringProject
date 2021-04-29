@@ -6,7 +6,8 @@
   "scripts": {
     "lintSpec": "spectral lint ./spec/spec.yaml",
     "start": "nodemon ./src/app",
-    "lint": "eslint ./"
+    "lint": "eslint ./",
+    "createDB": "node ./script/createDb"
   },
   "keywords": [],
   "author": "",

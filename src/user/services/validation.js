@@ -8,6 +8,11 @@ const userSchema = Joi.object({
     isDeleted: Joi.boolean()
 });
 
+const querryStringSchema = Joi.object({
+    loginSubstring: Joi.string().required(),
+    limit: Joi.number().required()
+})
+
 const validationOpt = {
     abortEarly: false,
 };
@@ -23,6 +28,19 @@ const user = (userToValidate) => {
     return;
 };
 
+const querry = (querry) => {
+    const { error } = querryStringSchema.validate(querry, validationOpt);
+    if (error) {
+        return error.details.reduce((msgs, error) => {
+            msgs.push(error.message);
+            return msgs;
+        }, []);
+    }
+    return;
+};
+
+
 module.exports = {
     user,
+    querry
 };

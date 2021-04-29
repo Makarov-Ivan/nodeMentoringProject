@@ -1,22 +1,23 @@
+const { Op } = require('sequelize');
 const { userModule } = require("../models/user");
 
 const createUser = async (userData) => {
     try {
         const {
-            id: uid,
-            login: uLogin,
-            password: uPassword,
-            age: uAge,
-            isDeleted: uDeleted,
+            id: id,
+            login: login,
+            password: password,
+            age: age,
+            isDeleted: deleted,
         } = userData;
 
         const result = await userModule.create(
             {
-                uid,
-                uLogin,
-                uPassword,
-                uAge,
-                uDeleted,
+                id,
+                login,
+                password,
+                age,
+                deleted,
             }
         );
         return { result };
@@ -28,10 +29,9 @@ const createUser = async (userData) => {
 const getAllUsers = async () => {
     try {
         const result = await userModule.findAll({
-            // attributes: ["uid", "uLogin",[ "uAge", 'id'], 'login', 'age'],
-            attributes: ["uid", "uLogin", "uAge"],
+            attributes: ["id", "login", "age"],
             where: {
-                "uDeleted": false
+                "deleted": false
             }
         });
         return { result };
@@ -43,10 +43,10 @@ const getAllUsers = async () => {
 const getUserById = async (id) => {
     try {
         const result = await userModule.findAll({
-            attributes: ["uid", "uLogin", "uAge"],
+            attributes: ["id", "login", "age"],
             where: {
-                "uid": id,
-                "uDeleted": false,
+                "id": id,
+                "deleted": false,
             }
         });
         return { result };
@@ -54,9 +54,26 @@ const getUserById = async (id) => {
         return { error };
     }
 };
+
+const getUsersBySubstringAndLimit = async (querry) => {
+    try {
+        let { limit, loginSubstring } = querry;
+        const result = await userModule.findAll({
+            attributes: ["id", "login", "age"],
+            limit,
+            where: {
+                "login": { [Op.iLike]: `%${loginSubstring}%` }
+            }
+        })
+        return { result };
+    } catch (error) {
+        return { error };
+    }
+}
+
 const deleteUser = async (id) => {
     try {
-        const result = await userModule.update({ "uDeleted": true }, { where: { "uid": id } });
+        const result = await userModule.update({ "deleted": true }, { where: { "id": id } });
         return { result };
     } catch (error) {
         return { error };
@@ -67,15 +84,15 @@ const updateUser = async (userData) => {
     try {
         const result = await userModule.update(
             {
-                "uLogin": `${userData.login}`,
-                "uPassword": `${userData.password}`,
-                "uAge": `${userData.age}`,
-                "uDeleted": `${userData.isDeleted}`
-            }, { where: { "uid": `${userData.id}` } });
+                "login": `${userData.login}`,
+                "password": `${userData.password}`,
+                "age": `${userData.age}`,
+                "deleted": `${userData.isDeleted}`
+            }, { where: { "id": `${userData.id}` } });
         return { result };
     } catch (error) {
         return { error };
     }
 };
 
-module.exports = { createUser, getAllUsers, getUserById, deleteUser, updateUser };
+module.exports = { createUser, getAllUsers, getUserById, deleteUser, updateUser, getUsersBySubstringAndLimit };

@@ -4,32 +4,6 @@ info:
   description: This is our Node Mentoring.
   version: "1.0"
 paths:
-
-  /users/getAutoSuggestUsers:
-    x-swagger-router-controller: controller
-    get:
-      operationId: getAutoSuggestUsers
-      description: Returns user based on Limit and Substring
-      summary: Find user by substring and limit
-      parameters:
-        - in: query
-          name: substring
-          schema:
-            type: string
-          description: substring to search
-        - in: query
-          name: limit
-          schema:
-            type: integer
-          description: size of chunks
-      responses:
-        "200":
-          description: users
-          content:
-            application/json:
-              schema:
-                type: array
-
   /users/{id}:
     x-swagger-router-controller: controller
     get:
@@ -83,9 +57,33 @@ paths:
     get:
       operationId: gatAllUsers
       description: get all users
-      summary: get all users
+      summary: get all users or with setted Limit and Substring
+      parameters:
+        - in: query
+          name: loginSubstring
+          schema: 
+            type: string
+          description: The substring of login
+        - in: query
+          name: limit
+          schema: 
+            type: integer
+          description: The limit of users
+
       responses:
         "200":
+          description: all users
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+        "400":
+          description: all users
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+        "500":
           description: all users
           content:
             application/json:
