@@ -5,7 +5,7 @@ info:
   version: "1.0"
 paths:
   /users/{id}:
-    x-swagger-router-controller: controller
+    x-swagger-router-controller: controllers
     get:
       operationId: getUserById
       description: Returns users based on ID
@@ -33,8 +33,37 @@ paths:
         "404":
           description: user dosn\'t exist
 
+  /group/{id}:
+    x-swagger-router-controller: controllers
+    get:
+      operationId: getGroupById
+      description: Returns group based on ID
+      summary: Get group by ID
+      parameters:
+        - $ref: "#/components/parameters/idPathParameter"
+      responses:
+        "200":
+          description: group response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Group"
+        "500":
+          description: error
+    delete:
+      operationId: deleteGroupById
+      description: Deletes group based on ID
+      summary: Delete group by ID
+      parameters:
+        - $ref: "#/components/parameters/idPathParameter"
+      responses:
+        "200":
+          description: group deleted
+        "404":
+          description: group dosn\'t exist
+
   /users:
-    x-swagger-router-controller: controller
+    x-swagger-router-controller: controllers
     post:
       operationId: createUser
       description: create user
@@ -109,11 +138,76 @@ paths:
               schema:
                 type: array
 
+  /groups:
+    x-swagger-router-controller: controllers
+    post:
+      operationId: createGroup
+      description: create group
+      summary: create group
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Group"
+      responses:
+        "201":
+          description: group created
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+    get:
+      operationId: gatAllGroups
+      description: get all groups
+      summary: get all groups or with setted Limit and Substring
+
+      responses:
+        "200":
+          description: all groups
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Gropus"
+        "400":
+          description: all groups
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Gropus"
+        "500":
+          description: all groups
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Gropus"
+    put:
+      operationId: putGroup
+      description: update or create group
+      summary: update or create group
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Group"
+      responses:
+        "201":
+          description: update or put group
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+
 components:
   parameters:
     idPathParameter:
       name: id
-      description: user id
+      description: user or group id
       example: 1
       in: path
       required: true
@@ -146,3 +240,20 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/User"
+    Group:
+      type: object
+      properties:
+        id:
+          oneOf:
+            - type: string
+            - type: integer
+        name:
+          type: string
+        permission:
+          type: array
+          items:
+            type: string
+    Groups:
+      type: array
+      items:
+        $ref: "#/components/schemas/Group"
