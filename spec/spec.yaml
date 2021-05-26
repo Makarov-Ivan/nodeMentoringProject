@@ -4,6 +4,37 @@ info:
   description: This is our Node Mentoring.
   version: "1.0"
 paths:
+  /users/{userId}/groups/{groupId}:
+    x-swagger-router-controller: controllers
+    post:
+      operationId: addUsersToGroup
+      description: add users to group
+      summary: add users to group
+      parameters:
+        - name: userId
+          description: user id
+          example: 1
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: groupId
+          description: group id
+          example: 1
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: user response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "500":
+          description: error
+
   /users/{id}:
     x-swagger-router-controller: controllers
     get:
@@ -90,12 +121,12 @@ paths:
       parameters:
         - in: query
           name: loginSubstring
-          schema: 
+          schema:
             type: string
           description: The substring of login
         - in: query
           name: limit
-          schema: 
+          schema:
             type: integer
           description: The limit of users
 
@@ -169,19 +200,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Gropus"
+                $ref: "#/components/schemas/Groups"
         "400":
           description: all groups
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Gropus"
+                $ref: "#/components/schemas/Groups"
         "500":
           description: all groups
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Gropus"
+                $ref: "#/components/schemas/Groups"
     put:
       operationId: putGroup
       description: update or create group
@@ -228,7 +259,7 @@ components:
           minLength: 4
           maxLength: 15
           format: password
-          pattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{4,15}$'
+          pattern: "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{4,15}$"
         age:
           type: integer
           minimum: 4
