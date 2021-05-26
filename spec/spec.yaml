@@ -160,10 +160,9 @@ paths:
               schema:
                 type: array
     get:
-      operationId: gatAllGroups
+      operationId: getAllGroups
       description: get all groups
       summary: get all groups or with setted Limit and Substring
-
       responses:
         "200":
           description: all groups
