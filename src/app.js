@@ -12,7 +12,7 @@ const app = express();
 const port=3000;
 
 const oasToolsOptions={
-    controllers: path.normalize(`${__dirname}/./user/`),
+    controllers: path.normalize(`${__dirname}/`),
     strict: false,
 };
 
