@@ -47,7 +47,7 @@ const gatAllUsers = async (req, res) => {
             res.status(500).send(error);
             return;
         }
-        res.status(201).send(result);
+        res.status(200).send(result);
         return;    
     }
     const { error, result } = await UserService.getAllUsers();
