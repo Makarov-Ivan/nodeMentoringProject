@@ -12,7 +12,6 @@ const getUserById = async (req, res) => {
     res.status(201).send(result);
     return;
 };
-// delete getAutoSuggestUsers, wouldn't be used, should be in /users
 
 const createUser = async (req, res) => {
     const {
@@ -98,5 +97,3 @@ module.exports = {
     putUser,
     deleteUserById,
 };
-
-
