@@ -1,11 +1,13 @@
 const { sequelizeClient } = require('../DB_connection/connection');
 const { userModule } = require('../src/user/models/user');
-const {groupModule} = require('../src/group/models/group');
+const { groupModule } = require('../src/group/models/group');
 
 (async () => {
     console.log('\ncreating DB\n')
+    userModule.belongsToMany(groupModule, { through: "UserGroup" });
+    groupModule.belongsToMany(userModule, { through: "UserGroup" });
     await sequelizeClient.sync({ force: true });
-    console.log('\nDB was created\nadding blanc users to DB\n');
+    console.log('\nDB was created\nadding blanc data to DB\n');
     const blancUsers = [
         {
             id: 111,
@@ -43,18 +45,18 @@ const {groupModule} = require('../src/group/models/group');
             deleted: false,
         }
     ];
-    const blancGroups=[
+    const blancGroups = [
         {
             id: 1,
             name: 'firstGrop',
-            permission:'1st'
+            permission: '1st'
         },
         {
             id: 2,
             name: 'secondGrop',
-            permission:'2st'
+            permission: '2st'
         }
     ]
     blancUsers.forEach(async (blancUser) => { await userModule.create(blancUser) });
-    blancGroups.forEach(async (blancGroup) => {await groupModule.create(blancGroup)})
+    blancGroups.forEach(async (blancGroup) => { await groupModule.create(blancGroup) })
 })();
