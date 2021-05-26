@@ -3,7 +3,6 @@ const { DataTypes } = require("sequelize");
 const { sequelizeClient } = require("../../../DB_connection/connection");
 
 const User = sequelizeClient.define("User", {
-  //rename attributes, delete id
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
