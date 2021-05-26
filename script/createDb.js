@@ -1,5 +1,6 @@
 const { sequelizeClient } = require('../DB_connection/connection');
 const { userModule } = require('../src/user/models/user');
+const {groupModule} = require('../src/group/models/group');
 
 (async () => {
     console.log('\ncreating DB\n')
@@ -42,5 +43,18 @@ const { userModule } = require('../src/user/models/user');
             deleted: false,
         }
     ];
+    const blancGroups=[
+        {
+            id: 1,
+            name: 'firstGrop',
+            permission:'1st'
+        },
+        {
+            id: 2,
+            name: 'secondGrop',
+            permission:'2st'
+        }
+    ]
     blancUsers.forEach(async (blancUser) => { await userModule.create(blancUser) });
+    blancGroups.forEach(async (blancGroup) => {await groupModule.create(blancGroup)})
 })();
