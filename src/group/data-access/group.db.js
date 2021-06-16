@@ -1,6 +1,9 @@
 const { Op } = require('sequelize');
 const { groupModule } = require("../models/group");
 
+const { userModule } = require('../../user/models/user');
+groupModule.belongsToMany(userModule, { through: 'UserGroup' })
+
 const createGroup = async (groupData) => {
     try {
         const result = await groupModule.create(
@@ -61,10 +64,22 @@ const updateGroup = async (groupData) => {
     }
 };
 
+const addUsersToGroup = async (groupId, usersIds) => {
+    try {
+        const users = await Promise.all(usersIds.map(async (userId) => await userModule.findByPk(userId)))
+        const group = await groupModule.findByPk(groupId)
+        const result = await group.addUsers(users)
+        return { result }
+    } catch (error) {
+        return { error }
+    }
+}
+
 module.exports = {
     createGroup,
     getAllGroups,
-getGroupById,
-deleteGroup,
-updateGroup,
+    getGroupById,
+    deleteGroup,
+    updateGroup,
+    addUsersToGroup
 };

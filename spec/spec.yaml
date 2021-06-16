@@ -4,37 +4,6 @@ info:
   description: This is our Node Mentoring.
   version: "1.0"
 paths:
-  /users/{userId}/groups/{groupId}:
-    x-swagger-router-controller: controllers
-    post:
-      operationId: addUsersToGroup
-      description: add users to group
-      summary: add users to group
-      parameters:
-        - name: userId
-          description: user id
-          example: 1
-          in: path
-          required: true
-          schema:
-            type: integer
-        - name: groupId
-          description: group id
-          example: 1
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: user response
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-        "500":
-          description: error
-
   /users/{id}:
     x-swagger-router-controller: controllers
     get:
@@ -63,6 +32,28 @@ paths:
           description: user deleted
         "404":
           description: user dosn\'t exist
+
+  /group/addUsers:
+    x-swagger-router-controller: controllers
+    post:
+      operationId: addUsersToGroup
+      description: add list of users to group
+      summary: many users to one group
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/usersToGroupBody"
+      responses:
+        "201":
+          description: users added to group
+        "400":
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
 
   /group/{id}:
     x-swagger-router-controller: controllers
@@ -245,6 +236,19 @@ components:
         type: integer
 
   schemas:
+    usersToGroupBody:
+      type: object
+      properties:
+        usersIds:
+          type: array
+          items: 
+            type: string
+        groupId:
+          type: string
+      required:
+        - users
+        - group
+
     User:
       type: object
       properties:

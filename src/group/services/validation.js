@@ -6,6 +6,11 @@ const groupShema = Joi.object({
     permissions: Joi.array().items(Joi.string())
 });
 
+const requestBody = Joi.object({
+    usersIds: Joi.array().required(),
+    groupId: Joi.string().required()
+})
+
 const validationOpt = {
     abortEarly: false,
 };
@@ -21,6 +26,17 @@ const group = (groupToValidate) => {
     return;
 };
 
+const usersToGroup = (reqestBodyToValidate) => {
+    const { error } = requestBody.validate(reqestBodyToValidate, validationOpt)
+    if (error) {
+        return error.details.reduce((msgs, error) => {
+            msgs.push(error.message);
+            return msgs;
+        }, []);
+    }
+    return;
+}
+
 module.exports = {
-    group,
+    group, usersToGroup
 };

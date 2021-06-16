@@ -4,8 +4,6 @@ const { groupModule } = require('../src/group/models/group');
 
 (async () => {
     console.log('\ncreating DB\n')
-    userModule.belongsToMany(groupModule, { through: "UserGroup" });
-    groupModule.belongsToMany(userModule, { through: "UserGroup" });
     await sequelizeClient.sync({ force: true });
     console.log('\nDB was created\nadding blanc data to DB\n');
     const blancUsers = [

@@ -1,6 +1,9 @@
 const { Op } = require('sequelize');
 const { userModule } = require("../models/user");
 
+const { groupModule } = require("../../group/models/group")
+userModule.belongsToMany(groupModule, { through: 'UserGroup' })
+
 const createUser = async (userData) => {
     try {
         const {

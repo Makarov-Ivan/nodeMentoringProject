@@ -49,7 +49,6 @@ const deleteGroupById = async (req, res) => {
         res.status(500).send(error);
         return;
     }
-    console.log({result, msg:'from router'})
     res.status(200).send(result);
     return;
 };
@@ -59,7 +58,6 @@ const putGroup = async (req, res) => {
     const {
         body: newGroup,
     } = req;
-    console.log({newGroup})
     const validationError = await ValidationService.group(newGroup);
     if (validationError) {
         res.status(400).send(validationError);
@@ -75,12 +73,30 @@ const putGroup = async (req, res) => {
     return;
 };
 
+const addUsersToGroup = async (req, res) => {
+    const { body } = req;
+    const validationError = await ValidationService.usersToGroup(body)
+    if (validationError) {
+        res.status(400).send(validationError);
+        return;
+    }
+    const { groupId, usersIds } = body;
+    const { error, result } = await GroupService.addUsersToGroup(groupId, usersIds)
+    if (error) {
+        res.status(500).send(error);
+        return;
+    }
+    res.status(201).send(result);
+    return
+}
+
 module.exports = {
     getGroupById,
     createGroup,
     getAllGroups,
     putGroup,
     deleteGroupById,
+    addUsersToGroup
 };
 
 

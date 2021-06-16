@@ -5,22 +5,14 @@ const { getUserById,
     deleteUserById,
 } = require('./user/controller')
 
-const {getGroupById, deleteGroupById, getAllGroups, createGroup, putGroup} = require('./group/controller')
+const groupController = require('./group/controller')
 
-const {addUsersToGroup} = require('./userToGroup/controller')
-
-module.exports={
+module.exports = {
     getUserById,
     createUser,
     gatAllUsers,
     putUser,
     deleteUserById,
-    
-    getGroupById,
-    deleteGroupById,
-    getAllGroups,
-    createGroup,
-    putGroup,
 
-    addUsersToGroup
+    ...groupController,
 }
