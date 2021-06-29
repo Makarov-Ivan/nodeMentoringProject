@@ -33,12 +33,14 @@ paths:
         "404":
           description: user dosn\'t exist
 
-  /group/addUsers:
+  /group/{id}/users:
     x-swagger-router-controller: controllers
     post:
       operationId: addUsersToGroup
       description: add list of users to group
       summary: many users to one group
+      parameters: 
+        - $ref: "#/components/parameters/idPathParameter"
       requestBody:
         required: true
         content:

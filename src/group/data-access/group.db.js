@@ -68,8 +68,12 @@ const addUsersToGroup = async (groupId, usersIds) => {
     try {
         const users = await Promise.all(usersIds.map(async (userId) => await userModule.findByPk(userId)))
         const group = await groupModule.findByPk(groupId)
-        const result = await group.addUsers(users)
-        return { result }
+        if (group == null) {
+            throw new Error(`group with ${groupId} doesn't exist`);
+        } else {
+            const result = await group.addUsers(users)
+            return { result }
+        }
     } catch (error) {
         return { error }
     }

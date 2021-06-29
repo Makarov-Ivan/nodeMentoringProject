@@ -74,16 +74,16 @@ const putGroup = async (req, res) => {
 };
 
 const addUsersToGroup = async (req, res) => {
-    const { body } = req;
+    const { body, body: { usersIds } } = req;
+    const { id: groupId } = req.params
     const validationError = await ValidationService.usersToGroup(body)
     if (validationError) {
         res.status(400).send(validationError);
         return;
     }
-    const { groupId, usersIds } = body;
     const { error, result } = await GroupService.addUsersToGroup(groupId, usersIds)
     if (error) {
-        res.status(500).send(error);
+        res.status(500).send(error.message);
         return;
     }
     res.status(201).send(result);

@@ -6,9 +6,8 @@ const groupShema = Joi.object({
     permissions: Joi.array().items(Joi.string())
 });
 
-const requestBody = Joi.object({
-    usersIds: Joi.array().required(),
-    groupId: Joi.string().required()
+const requestBodySchema = Joi.object({
+    usersIds: Joi.array().required().min(1),
 })
 
 const validationOpt = {
@@ -27,7 +26,7 @@ const group = (groupToValidate) => {
 };
 
 const usersToGroup = (reqestBodyToValidate) => {
-    const { error } = requestBody.validate(reqestBodyToValidate, validationOpt)
+    const { error } = requestBodySchema.validate(reqestBodyToValidate, validationOpt)
     if (error) {
         return error.details.reduce((msgs, error) => {
             msgs.push(error.message);
