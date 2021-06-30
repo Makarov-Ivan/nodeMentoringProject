@@ -9,6 +9,12 @@ var oasDoc = jsyaml.load(spec);
 
 const app = express();
 
+app.use((req, res, next) => {
+    const { method, originalUrl, body, query } = req;
+    console.log('\nLogging request with following data:', { method, originalUrl, body, query, date: new Date().toGMTString() })
+    next()
+})
+
 const port = 3000;
 
 const oasToolsOptions = {
@@ -23,11 +29,10 @@ oasTools.initializeMiddleware(oasDoc, app, function (middleware) {
     // Configuration of usage of swagger middlewares with app.use()
     // console.log(middleware);
     app.use(middleware.swaggerMetadata());
+});
 
-    // Start the server
-    app.listen(port, () => {
-        console.log("app is listening on ", port);
-    });
+app.listen(port, () => {
+    console.log("app is listening on ", port);
 });
 
 process.on('uncaughtException', (err, origin) => {

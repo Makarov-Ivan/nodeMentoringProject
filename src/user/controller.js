@@ -34,7 +34,6 @@ const createUser = async (req, res) => {
 
 const gatAllUsers = async (req, res) => {
     const { query: querryObject } = req
-    console.log({querryObject});
     if (Object.keys(querryObject).length) {
         const validationError = await ValidationService.querry(querryObject);
         if (validationError) {
