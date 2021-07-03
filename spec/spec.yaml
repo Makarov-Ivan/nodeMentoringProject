@@ -33,7 +33,7 @@ paths:
         "404":
           description: user dosn\'t exist
 
-  /group/{id}/users:
+  /groups/{id}/users:
     x-swagger-router-controller: controllers
     post:
       operationId: addUsersToGroup
