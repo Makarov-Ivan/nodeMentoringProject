@@ -1,6 +1,9 @@
-const ValidationService = require("./services/validation");
+const express = require('express');
 
+const ValidationService = require("./services/validation");
 const UserService = require("./data-access/user.db");
+
+const usersRouter = express.Router();
 
 const getUserById = async (req, res) => {
     const { id } = req.params;
@@ -12,6 +15,7 @@ const getUserById = async (req, res) => {
     res.status(201).send(result);
     return;
 };
+usersRouter.get('/:id', getUserById)
 
 const createUser = async (req, res) => {
     const {
@@ -31,6 +35,7 @@ const createUser = async (req, res) => {
     res.status(201).send(result);
     return;
 };
+usersRouter.post('/', createUser)
 
 const gatAllUsers = async (req, res) => {
     const { query: querryObject } = req
@@ -46,7 +51,7 @@ const gatAllUsers = async (req, res) => {
             return;
         }
         res.status(200).send(result);
-        return;    
+        return;
     }
     const { error, result } = await UserService.getAllUsers();
     if (error) {
@@ -56,6 +61,7 @@ const gatAllUsers = async (req, res) => {
     res.status(200).send(result);
     return;
 };
+usersRouter.get('/', gatAllUsers)
 
 const deleteUserById = async (req, res) => {
     const { id } = req.params;
@@ -67,7 +73,7 @@ const deleteUserById = async (req, res) => {
     res.status(200).send(result);
     return;
 };
-
+usersRouter.delete('/:id', deleteUserById)
 
 const putUser = async (req, res) => {
     const {
@@ -88,11 +94,9 @@ const putUser = async (req, res) => {
     res.status(201).send(result);
     return;
 };
+usersRouter.put('/', putUser)
+
 
 module.exports = {
-    getUserById,
-    createUser,
-    gatAllUsers,
-    putUser,
-    deleteUserById,
+    usersRouter
 };

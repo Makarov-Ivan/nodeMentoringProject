@@ -57,7 +57,7 @@ paths:
               schema:
                 type: array
 
-  /group/{id}:
+  /groups/{id}:
     x-swagger-router-controller: controllers
     get:
       operationId: getGroupById

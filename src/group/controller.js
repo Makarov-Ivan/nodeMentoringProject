@@ -1,6 +1,9 @@
-const ValidationService = require("./services/validation");
+const express = require('express');
 
+const ValidationService = require("./services/validation");
 const GroupService = require("./data-access/group.db");
+
+const groupsController = express.Router();
 
 const getGroupById = async (req, res) => {
     const { id } = req.params;
@@ -12,12 +15,13 @@ const getGroupById = async (req, res) => {
     res.status(200).send(result);
     return;
 };
+groupsController.get('/:id', getGroupById)
 
 const createGroup = async (req, res) => {
     const {
         body: newGroup,
     } = req;
-
+    // console.log(req)
     const validationError = await ValidationService.group(newGroup);
     if (validationError) {
         res.status(400).send(validationError);
@@ -31,6 +35,7 @@ const createGroup = async (req, res) => {
     res.status(201).send(result);
     return;
 };
+groupsController.post('/', createGroup)
 
 const getAllGroups = async (req, res) => {
     const { error, result } = await GroupService.getAllGroups();
@@ -41,6 +46,7 @@ const getAllGroups = async (req, res) => {
     res.status(200).send(result);
     return;
 };
+groupsController.get('/', getAllGroups)
 
 const deleteGroupById = async (req, res) => {
     const { id } = req.params;
@@ -52,7 +58,7 @@ const deleteGroupById = async (req, res) => {
     res.status(200).send(result);
     return;
 };
-
+groupsController.delete('/:id', deleteGroupById)
 
 const putGroup = async (req, res) => {
     const {
@@ -72,6 +78,7 @@ const putGroup = async (req, res) => {
     res.status(201).send(result);
     return;
 };
+groupsController.put('/', putGroup)
 
 const addUsersToGroup = async (req, res) => {
     const { body, body: { usersIds } } = req;
@@ -89,14 +96,11 @@ const addUsersToGroup = async (req, res) => {
     res.status(201).send(result);
     return
 }
+groupsController.post('/:id/users', addUsersToGroup)
 
 module.exports = {
-    getGroupById,
-    createGroup,
-    getAllGroups,
-    putGroup,
-    deleteGroupById,
-    addUsersToGroup
+
+    groupsController
 };
 
 
