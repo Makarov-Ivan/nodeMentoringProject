@@ -2,6 +2,7 @@ const express = require("express");
 const { usersRouter } = require("./user/controller");
 const { groupsController } = require("./group/controller");
 const customLogger = require('./util/costomLogger')
+const errorMiddlewear = require('./util/errors/middlewear')
 
 const app = express();
 
@@ -14,6 +15,8 @@ const port = process.env.PORT | 3000;
 
 app.use('/users', usersRouter)
 app.use('/groups', groupsController)
+
+app.use(errorMiddlewear);
 
 app.listen(port, () => {
     console.log("app is listening on ", port);

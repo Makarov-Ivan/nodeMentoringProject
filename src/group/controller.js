@@ -5,11 +5,11 @@ const GroupService = require("./data-access/group.db");
 
 const groupsController = express.Router();
 
-const getGroupById = async (req, res) => {
+const getGroupById = async (req, res, next) => {
     const { id } = req.params;
     const { error, result } = await GroupService.getGroupById(id);
     if (error) {
-        res.status(500).send(error);
+        next({ msg: error })
         return;
     }
     res.status(200).send(result);
@@ -17,19 +17,18 @@ const getGroupById = async (req, res) => {
 };
 groupsController.get('/:id', getGroupById)
 
-const createGroup = async (req, res) => {
+const createGroup = async (req, res, next) => {
     const {
         body: newGroup,
     } = req;
-    // console.log(req)
     const validationError = await ValidationService.group(newGroup);
     if (validationError) {
-        res.status(400).send(validationError);
+        next({ msg: validationError, code: 400 })
         return;
     }
     const { error, result } = await GroupService.createGroup(newGroup);
     if (error) {
-        res.status(500).send(error);
+        next({ msg: error })
         return;
     }
     res.status(201).send(result);
@@ -37,10 +36,10 @@ const createGroup = async (req, res) => {
 };
 groupsController.post('/', createGroup)
 
-const getAllGroups = async (req, res) => {
+const getAllGroups = async (req, res, next) => {
     const { error, result } = await GroupService.getAllGroups();
     if (error) {
-        res.status(500).send(error);
+        next({ msg: error })
         return;
     }
     res.status(200).send(result);
@@ -48,11 +47,11 @@ const getAllGroups = async (req, res) => {
 };
 groupsController.get('/', getAllGroups)
 
-const deleteGroupById = async (req, res) => {
+const deleteGroupById = async (req, res, next) => {
     const { id } = req.params;
     const { error, result } = await GroupService.deleteGroup(id);
     if (error) {
-        res.status(500).send(error);
+        next({ msg: error })
         return;
     }
     res.status(200).send(result);
@@ -60,19 +59,19 @@ const deleteGroupById = async (req, res) => {
 };
 groupsController.delete('/:id', deleteGroupById)
 
-const putGroup = async (req, res) => {
+const putGroup = async (req, re, next) => {
     const {
         body: newGroup,
     } = req;
     const validationError = await ValidationService.group(newGroup);
     if (validationError) {
-        res.status(400).send(validationError);
+        next({ msg: validationError, code: 400 })
         return;
     }
 
     const { error, result } = await GroupService.updateGroup(newGroup);
     if (error) {
-        res.status(500).send(error);
+        next({ msg: error })
         return;
     }
     res.status(201).send(result);
@@ -80,17 +79,17 @@ const putGroup = async (req, res) => {
 };
 groupsController.put('/', putGroup)
 
-const addUsersToGroup = async (req, res) => {
+const addUsersToGroup = async (req, res, next) => {
     const { body, body: { usersIds } } = req;
     const { id: groupId } = req.params
     const validationError = await ValidationService.usersToGroup(body)
     if (validationError) {
-        res.status(400).send(validationError);
+        next({ msg: validationError, code: 400 })
         return;
     }
     const { error, result } = await GroupService.addUsersToGroup(groupId, usersIds)
     if (error) {
-        res.status(500).send(error.message);
+        next({ msg: error })
         return;
     }
     res.status(201).send(result);
@@ -99,7 +98,6 @@ const addUsersToGroup = async (req, res) => {
 groupsController.post('/:id/users', addUsersToGroup)
 
 module.exports = {
-
     groupsController
 };
 
