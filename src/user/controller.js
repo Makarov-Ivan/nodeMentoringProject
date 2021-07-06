@@ -97,6 +97,4 @@ const putUser = async (req, res, next) => {
 usersRouter.put('/', putUser)
 
 
-module.exports = {
-    usersRouter
-};
+module.exports = usersRouter

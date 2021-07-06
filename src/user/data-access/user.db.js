@@ -98,4 +98,19 @@ const updateUser = async (userData) => {
     }
 };
 
-module.exports = { createUser, getAllUsers, getUserById, deleteUser, updateUser, getUsersBySubstringAndLimit };
+const getUserByLoginAndPassword = async (login, password) => {
+    try {
+        const result = await userModule.findAll({
+            attributes: ["id", "login", "age"],
+            where: {
+                "login": login,
+                "password": password,
+            }
+        });
+        return { result };
+    } catch (error) {
+        return { error };
+    }
+};
+
+module.exports = { createUser, getAllUsers, getUserById, deleteUser, updateUser, getUsersBySubstringAndLimit, getUserByLoginAndPassword };

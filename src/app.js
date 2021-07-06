@@ -1,8 +1,10 @@
 const express = require("express");
-const { usersRouter } = require("./user/controller");
-const { groupsController } = require("./group/controller");
+const usersRouter = require("./user/controller");
+const groupsRouter = require("./group/controller");
+const loginRouter = require('./login/controller')
 const customLogger = require('./util/costomLogger')
 const errorMiddlewear = require('./util/errors/middlewear')
+const jwtTokenService = require('./login/services/jwt')
 
 const app = express();
 
@@ -11,13 +13,14 @@ app.use(express.urlencoded({ extended: true })) // for parsing application/x-www
 
 app.use(customLogger)
 
-const port = process.env.PORT | 3000;
+app.use('/login', loginRouter)
 
-app.use('/users', usersRouter)
-app.use('/groups', groupsController)
+app.use('/users', jwtTokenService.checkToken, usersRouter)
+app.use('/groups', jwtTokenService.checkToken, groupsRouter)
 
 app.use(errorMiddlewear);
 
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log("app is listening on ", port);
 });

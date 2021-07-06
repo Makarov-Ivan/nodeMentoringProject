@@ -3,7 +3,7 @@ const express = require('express');
 const ValidationService = require("./services/validation");
 const GroupService = require("./data-access/group.db");
 
-const groupsController = express.Router();
+const groupsRouter = express.Router();
 
 const getGroupById = async (req, res, next) => {
     const { id } = req.params;
@@ -15,7 +15,7 @@ const getGroupById = async (req, res, next) => {
     res.status(200).send(result);
     return;
 };
-groupsController.get('/:id', getGroupById)
+groupsRouter.get('/:id', getGroupById)
 
 const createGroup = async (req, res, next) => {
     const {
@@ -34,7 +34,7 @@ const createGroup = async (req, res, next) => {
     res.status(201).send(result);
     return;
 };
-groupsController.post('/', createGroup)
+groupsRouter.post('/', createGroup)
 
 const getAllGroups = async (req, res, next) => {
     const { error, result } = await GroupService.getAllGroups();
@@ -45,7 +45,7 @@ const getAllGroups = async (req, res, next) => {
     res.status(200).send(result);
     return;
 };
-groupsController.get('/', getAllGroups)
+groupsRouter.get('/', getAllGroups)
 
 const deleteGroupById = async (req, res, next) => {
     const { id } = req.params;
@@ -57,7 +57,7 @@ const deleteGroupById = async (req, res, next) => {
     res.status(200).send(result);
     return;
 };
-groupsController.delete('/:id', deleteGroupById)
+groupsRouter.delete('/:id', deleteGroupById)
 
 const putGroup = async (req, re, next) => {
     const {
@@ -77,7 +77,7 @@ const putGroup = async (req, re, next) => {
     res.status(201).send(result);
     return;
 };
-groupsController.put('/', putGroup)
+groupsRouter.put('/', putGroup)
 
 const addUsersToGroup = async (req, res, next) => {
     const { body, body: { usersIds } } = req;
@@ -95,10 +95,8 @@ const addUsersToGroup = async (req, res, next) => {
     res.status(201).send(result);
     return
 }
-groupsController.post('/:id/users', addUsersToGroup)
+groupsRouter.post('/:id/users', addUsersToGroup)
 
-module.exports = {
-    groupsController
-};
+module.exports = groupsRouter;
 
 
