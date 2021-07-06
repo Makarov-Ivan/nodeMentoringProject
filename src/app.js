@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('cors')
 const usersRouter = require("./user/controller");
 const groupsRouter = require("./group/controller");
 const loginRouter = require('./login/controller')
@@ -7,7 +8,7 @@ const errorMiddlewear = require('./util/errors/middlewear')
 const jwtTokenService = require('./login/services/jwt')
 
 const app = express();
-
+app.use(cors());
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
