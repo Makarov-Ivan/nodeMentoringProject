@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`users validation service querry string should return error, if invalid object is passed 1`] = `
+Array [
+  "\\"limit\\" is required",
+]
+`;
+
+exports[`users validation service querry string should return error, if invalid object is passed 2`] = `
+Array [
+  "\\"loginSubstring\\" is required",
+]
+`;
+
+exports[`users validation service querry string should return error, if invalid object is passed 3`] = `
+Array [
+  "\\"loginSubstring\\" is required",
+  "\\"limit\\" is required",
+]
+`;
+
+exports[`users validation service user object should return error, if invalid object is passed 1`] = `
+Array [
+  "\\"login\\" is required",
+  "\\"id\\" is required",
+  "\\"age\\" must be greater than or equal to 4",
+  "\\"log\\" is not allowed",
+  "\\"index\\" is not allowed",
+  "\\"pw\\" is not allowed",
+]
+`;

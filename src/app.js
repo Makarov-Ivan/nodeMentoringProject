@@ -1,35 +1,37 @@
-const express = require("express");
-const cors = require('cors')
-const usersRouter = require("./user/controller");
-const groupsRouter = require("./group/controller");
-const loginRouter = require('./login/controller')
-const customLogger = require('./util/costomLogger')
-const errorMiddlewear = require('./util/errors/middlewear')
-const jwtTokenService = require('./login/services/jwt')
+const express = require('express');
+const cors = require('cors');
+const usersRouter = require('./user/controller');
+const groupsRouter = require('./group/controller');
+const loginRouter = require('./login/controller');
+const customLogger = require('./util/costomLogger');
+const errorMiddlewear = require('./util/errors/middlewear');
+const jwtTokenService = require('./login/services/jwt');
 
 const app = express();
 app.use(cors());
-app.use(express.json()) // for parsing application/json
-app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(express.json()); // for parsing application/json
+app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-app.use(customLogger)
+app.use(customLogger);
 
-app.use('/login', loginRouter)
+app.use('/login', loginRouter);
 
-app.use('/users', jwtTokenService.checkToken, usersRouter)
-app.use('/groups', jwtTokenService.checkToken, groupsRouter)
+app.use('/users', jwtTokenService.checkToken, usersRouter);
+app.use('/groups', jwtTokenService.checkToken, groupsRouter);
 
 app.use(errorMiddlewear);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-    console.log("app is listening on ", port);
+  console.log('app is listening on ', port);
 });
 
 process.on('uncaughtException', (err, origin) => {
-    console.log(
-        process.stderr.fd,
-        `Caught exception: ${err}\n` +
-        `Exception origin: ${origin}`
-    );
+  console.log(
+    process.stderr.fd,
+    `Caught exception: ${err}\n`
+        + `Exception origin: ${origin}`,
+  );
 });
+
+module.exports = app;

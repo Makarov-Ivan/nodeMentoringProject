@@ -1,5 +1,5 @@
-const dbConfig=require("./dbConfig");
+const dbConfig = require('./dbConfig');
 
-module.exports={
-    dbConfig,
+module.exports = {
+  dbConfig,
 };

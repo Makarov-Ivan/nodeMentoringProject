@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`users validation service group object should return error, if invalid object is passed 1`] = `
+Array [
+  "\\"id\\" must be a number",
+  "\\"name\\" must be a string",
+  "\\"permissions\\" must be an array",
+]
+`;
+
+exports[`users validation service usersToGroup string should return error, if invalid object is passed 1`] = `
+Array [
+  "\\"usersIds\\" must contain at least 1 items",
+]
+`;
+
+exports[`users validation service usersToGroup string should return error, if invalid object is passed 2`] = `
+Array [
+  "\\"usersIds\\" is required",
+]
+`;
+
+exports[`users validation service usersToGroup string should return error, if invalid object is passed 3`] = `
+Array [
+  "\\"value\\" must be of type object",
+]
+`;
